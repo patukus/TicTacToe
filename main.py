@@ -91,28 +91,59 @@ def check_win(player):
 
 
 def draw_vertical_winning_line(col, player):
-    pass
+    posX = col * 200 + 100
+
+    if player == 1:
+        color = CIRCLE_COLOR
+    elif player == 2:
+        color = CROSS_COLOR
+
+    pygame.draw.line(screen, color, (posX, 15), (posX, HEIGHT - 15), 15)
 
 
 def draw_horizontal_winning_line(row, player):
-    pass
+    posY = row * 200 + 100
+
+    if player == 1:
+        color = CIRCLE_COLOR
+    elif player == 2:
+        color = CROSS_COLOR
+
+    pygame.draw.line(screen, color, (15, posY), (WIDTH - 15, posY), 15)
 
 
 def draw_asc_diagonal(player):
-    pass
+    if player == 1:
+        color = CIRCLE_COLOR
+    elif player == 2:
+        color = CROSS_COLOR
+
+    pygame.draw.line(screen, color, (15, HEIGHT - 15), (WIDTH - 15, 15), 15)
 
 
 def draw_desc_diagonal(player):
-    pass
+    if player == 1:
+        color = CIRCLE_COLOR
+    elif player == 2:
+        color = CROSS_COLOR
+
+    pygame.draw.line(screen, color, (15, 15), (WIDTH - 15, HEIGHT - 15), 15)
 
 
 def restart():
-    pass
+    screen.fill(BG_COLOR)
+    draw_lines()
+    current_player = 1
+    game_over = False
+    for row in range(BOARD_ROWS):
+        for col in range(BOARD_COLS):
+            board[row][col] = 0
 
 
 draw_lines()
 
-player = 1
+game_over = False
+current_player = 1
 
 # mainloop
 while True:
@@ -120,7 +151,7 @@ while True:
         if event.type == pygame.QUIT:
             sys.exit()
 
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type == pygame.MOUSEBUTTONDOWN and not game_over:
 
             mouseX = event.pos[0]
             mouseY = event.pos[1]
@@ -129,13 +160,21 @@ while True:
             clicked_col = int(mouseX // 200)
 
             if available_square(clicked_row, clicked_col):
-                if player == 1:
-                    mark_square(clicked_row, clicked_col, player)
-                    player = 2
+                if current_player == 1:
+                    mark_square(clicked_row, clicked_col, current_player)
+                    if check_win(current_player):
+                        game_over = True
+                    current_player = 2
                 else:
-                    mark_square(clicked_row, clicked_col, player)
-                    player = 1
+                    mark_square(clicked_row, clicked_col, current_player)
+                    if check_win(current_player):
+                        game_over = True
+                    current_player = 1
 
                 draw_figuers()
+
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_r:
+                restart()
 
     pygame.display.update()
