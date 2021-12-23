@@ -91,25 +91,25 @@ def check_win(player):
 
 
 def draw_vertical_winning_line(col, player):
-    posX = col * 200 + 100
+    pos_x = col * 200 + 100
 
     if player == 1:
         color = CIRCLE_COLOR
     elif player == 2:
         color = CROSS_COLOR
 
-    pygame.draw.line(screen, color, (posX, 15), (posX, HEIGHT - 15), 15)
+    pygame.draw.line(screen, color, (pos_x, 15), (pos_x, HEIGHT - 15), 15)
 
 
 def draw_horizontal_winning_line(row, player):
-    posY = row * 200 + 100
+    pos_y = row * 200 + 100
 
     if player == 1:
         color = CIRCLE_COLOR
     elif player == 2:
         color = CROSS_COLOR
 
-    pygame.draw.line(screen, color, (15, posY), (WIDTH - 15, posY), 15)
+    pygame.draw.line(screen, color, (15, pos_y), (WIDTH - 15, pos_y), 15)
 
 
 def draw_asc_diagonal(player):
@@ -133,8 +133,6 @@ def draw_desc_diagonal(player):
 def restart():
     screen.fill(BG_COLOR)
     draw_lines()
-    current_player = 1
-    game_over = False
     for row in range(BOARD_ROWS):
         for col in range(BOARD_COLS):
             board[row][col] = 0
@@ -176,5 +174,7 @@ while True:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_r:
                 restart()
+                current_player = 1
+                game_over = False
 
     pygame.display.update()
