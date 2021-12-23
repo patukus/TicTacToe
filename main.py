@@ -51,8 +51,8 @@ def draw_figuers():
                 pygame.draw.line(screen, CROSS_COLOR, (col * 200 + SPACE, row * 200 + SPACE), (col * 200 + 200 - SPACE, row * 200 + 200 - SPACE), CROSS_WIDTH)
 
 
-def mark_square(row, col, num):
-    board[row][col] = num
+def mark_square(row, col, player):
+    board[row][col] = player
 
 
 def available_square(row, col):
@@ -66,6 +66,48 @@ def is_board_full():
                 return False
 
     return True
+
+
+def check_win(player):
+    for col in range(BOARD_COLS):
+        if board[0][col] == player and board[1][col] == player and board[2][col] == player:
+            draw_vertical_winning_line(col, player)
+            return True
+
+    for row in range(BOARD_ROWS):
+        if board[row][0] == player and board[row][1] == player and board[row][2] == player:
+            draw_horizontal_winning_line(row, player)
+            return True
+
+    if board[2][0] == player and board[1][1] == player and board[0][2] == player:
+        draw_asc_diagonal(player)
+        return True
+
+    if board[0][0] == player and board[1][1] == player and board[2][2] == player:
+        draw_desc_diagonal(player)
+        return True
+
+    return False
+
+
+def draw_vertical_winning_line(col, player):
+    pass
+
+
+def draw_horizontal_winning_line(row, player):
+    pass
+
+
+def draw_asc_diagonal(player):
+    pass
+
+
+def draw_desc_diagonal(player):
+    pass
+
+
+def restart():
+    pass
 
 
 draw_lines()
