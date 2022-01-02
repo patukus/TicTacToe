@@ -6,15 +6,18 @@ import numpy as np
 
 pygame.init()
 
-WIDTH = 600
-HEIGHT = 600
-LINE_WIDTH = 15
-BOARD_ROWS = 3
+WIDTH = 300
+HEIGHT = WIDTH
 BOARD_COLS = 3
-CIRCLE_RADIUS = 60
+BOARD_ROWS = 3
+SQUARE_SIZE = WIDTH // BOARD_COLS
+LINE_WIDTH = 15
+
+
+CIRCLE_RADIUS = SQUARE_SIZE//3
 CIRCLE_WIDTH = 15
 CROSS_WIDTH = 25
-SPACE = 55
+SPACE = SQUARE_SIZE//4
 
 RED = (255, 0, 0)
 BG_COLOR = (28, 170, 156)
@@ -32,23 +35,23 @@ board = np.zeros((BOARD_ROWS, BOARD_COLS))
 
 def draw_lines():
     # horizontal 1
-    pygame.draw.line(screen, LINE_COLOR, (0, 200), (600, 200), LINE_WIDTH)
+    pygame.draw.line(screen, LINE_COLOR, (0, SQUARE_SIZE), (WIDTH, SQUARE_SIZE), LINE_WIDTH)
     # horizontal 2
-    pygame.draw.line(screen, LINE_COLOR, (0, 400), (600, 400), LINE_WIDTH)
+    pygame.draw.line(screen, LINE_COLOR, (0, 2*SQUARE_SIZE), (WIDTH, 2*SQUARE_SIZE), LINE_WIDTH)
     # vertical 1
-    pygame.draw.line(screen, LINE_COLOR, (200, 0), (200, 600), LINE_WIDTH)
+    pygame.draw.line(screen, LINE_COLOR, (SQUARE_SIZE, 0), (SQUARE_SIZE, HEIGHT), LINE_WIDTH)
     # vertical 2
-    pygame.draw.line(screen, LINE_COLOR, (400, 0), (400, 600), LINE_WIDTH)
+    pygame.draw.line(screen, LINE_COLOR, (2*SQUARE_SIZE, 0), (2*SQUARE_SIZE, HEIGHT), LINE_WIDTH)
 
 
 def draw_figuers():
     for row in range(BOARD_ROWS):
         for col in range(BOARD_COLS):
             if board[row][col] == 1:
-                pygame.draw.circle(screen, CIRCLE_COLOR, (int(col * 200 + 100), int(row * 200 + 100)), CIRCLE_RADIUS, CIRCLE_WIDTH)
+                pygame.draw.circle(screen, CIRCLE_COLOR, (int(col * SQUARE_SIZE + SQUARE_SIZE//2), int(row * SQUARE_SIZE + SQUARE_SIZE//2)), CIRCLE_RADIUS, CIRCLE_WIDTH)
             elif board[row][col] == 2:
-                pygame.draw.line(screen, CROSS_COLOR, (col * 200 + SPACE, row * 200 + 200 - SPACE), (col * 200 + 200 - SPACE, row * 200 + SPACE), CROSS_WIDTH)
-                pygame.draw.line(screen, CROSS_COLOR, (col * 200 + SPACE, row * 200 + SPACE), (col * 200 + 200 - SPACE, row * 200 + 200 - SPACE), CROSS_WIDTH)
+                pygame.draw.line(screen, CROSS_COLOR, (col * SQUARE_SIZE + SPACE, row * SQUARE_SIZE + SQUARE_SIZE - SPACE), (col * SQUARE_SIZE + SQUARE_SIZE - SPACE, row * SQUARE_SIZE + SPACE), CROSS_WIDTH)
+                pygame.draw.line(screen, CROSS_COLOR, (col * SQUARE_SIZE + SPACE, row * SQUARE_SIZE + SPACE), (col * SQUARE_SIZE + SQUARE_SIZE - SPACE, row * SQUARE_SIZE + SQUARE_SIZE - SPACE), CROSS_WIDTH)
 
 
 def mark_square(row, col, player):
@@ -91,8 +94,8 @@ def check_win(player):
 
 
 def draw_vertical_winning_line(col, player):
-    pos_x = col * 200 + 100
-
+    pos_x = col * SQUARE_SIZE + SQUARE_SIZE//2
+    color = RED
     if player == 1:
         color = CIRCLE_COLOR
     elif player == 2:
@@ -102,8 +105,8 @@ def draw_vertical_winning_line(col, player):
 
 
 def draw_horizontal_winning_line(row, player):
-    pos_y = row * 200 + 100
-
+    pos_y = row * SQUARE_SIZE + SQUARE_SIZE//2
+    color = RED
     if player == 1:
         color = CIRCLE_COLOR
     elif player == 2:
@@ -113,6 +116,7 @@ def draw_horizontal_winning_line(row, player):
 
 
 def draw_asc_diagonal(player):
+    color = RED
     if player == 1:
         color = CIRCLE_COLOR
     elif player == 2:
@@ -122,6 +126,7 @@ def draw_asc_diagonal(player):
 
 
 def draw_desc_diagonal(player):
+    color = RED
     if player == 1:
         color = CIRCLE_COLOR
     elif player == 2:
@@ -154,8 +159,8 @@ while True:
             mouseX = event.pos[0]
             mouseY = event.pos[1]
 
-            clicked_row = int(mouseY // 200)
-            clicked_col = int(mouseX // 200)
+            clicked_row = int(mouseY // SQUARE_SIZE)
+            clicked_col = int(mouseX // SQUARE_SIZE)
 
             if available_square(clicked_row, clicked_col):
                 if current_player == 1:
