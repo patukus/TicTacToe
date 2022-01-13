@@ -6,7 +6,7 @@ import numpy as np
 
 pygame.init()
 
-WIDTH = 300
+WIDTH = 600
 HEIGHT = WIDTH
 BOARD_COLS = 3
 BOARD_ROWS = 3
@@ -20,9 +20,9 @@ CROSS_WIDTH = 25
 SPACE = SQUARE_SIZE//4
 
 RED = (255, 0, 0)
-BG_COLOR = (28, 170, 156)
-LINE_COLOR = (23, 145, 135)
-CIRCLE_COLOR = (239, 231, 200)
+BG_COLOR = (255, 150, 0)
+LINE_COLOR = (255, 0, 0)
+CIRCLE_COLOR = (0, 150, 0)
 CROSS_COLOR = (66, 66, 66)
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
